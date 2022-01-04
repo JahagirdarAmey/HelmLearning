@@ -114,7 +114,32 @@ Cleanup on failure
 - Dont use if you want to debug
 
 
+### Create charts 
 
+To create chart
+- `helm create firstchart`
+- By default helm uses nginx chart to create our chart but we can use different type of starter packs to create helm charts 
+- `firstchart` folder is created 
+  - `charts` folder is created
+  - `templates` folder is created
+    - `tests` folder is created
+    - helpers.tpl , hpa.yaml , NOTES.txt , serviceaccount.yaml , deployment.yaml , ingress.yaml  service.yaml files are created
+  - values.yml, ignore file, chart.yml 
+
+
+chart.yml
+- metadata about chart
+
+charts folder
+- if this chart depends on any other chart to get its job done. Those other charts will be pulled and stored in this folder
+- 
+
+Templates
+- All templates
+- helpers.tpl , hpa.yaml , NOTES.txt , serviceaccount.yaml , deployment.yaml , ingress.yaml  service.yaml files are created
+
+Values.yml
+- values for template
 
 
 
