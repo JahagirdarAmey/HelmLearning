@@ -132,7 +132,6 @@ chart.yml
 
 charts folder
 - if this chart depends on any other chart to get its job done. Those other charts will be pulled and stored in this folder
-- 
 
 Templates
 - All templates
