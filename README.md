@@ -142,6 +142,13 @@ Values.yml
 - values for template
 
 
+To install created chart
+- `helm install firstapp firstchart`
+- firstapp is release name 
+- prints enough information to access nginx pods from our local machine 
+- chart folder -> templet -> notes.txt 
+- As this is nginx, by default clusterIp as serviceType is used. As this is clusterIp, Only accesible from cluster. You can do port forwarding
+- When you do port forwarding, Welcome to nginx is disbaled on browser (Open URL first)
 
 
 
