@@ -199,15 +199,15 @@ Functions
 
 Conditional 
 - 
-`{{- if .Value.mybooleanval }}
+```{{- if .Value.mybooleanval }}
  put whatever 
-{{- end}}`
+{{- end}}```
 -
-`{{- if .Value.mybooleanval }}
+```{{- if .Value.mybooleanval }}
  put whatever 
 {{- else}}
 put whatever 
-{{- end}}`
+{{- end}}```
 -
 `{{- if not .Value.mybooleanval }}`
 `{{- if and .Value.mybooleanval .Value.mybooleanval2 }}`
@@ -224,11 +224,11 @@ myvals
   - US
 `
 
-`
+```
 {{-with .Values.myvals}}
 {{ - toYaml . | nindent 2}}
 {{- end}}
-`
+```
 - This will print all myvals with 2 space indentation 
 - . here points to object returnd by -with
 - If you want to point to root object, use $.
@@ -238,29 +238,29 @@ Variables
 - `{{ $myVALUE := "Val" }}`
 
 Loop
-`
+```
 {{-range .Values.myvals}}
   {{. | upper}}
 {{- end }}
-`
+```
 
 
 Looping dictnory types
-`
+```
 {{-range $key,$value := .Values.myvals}}
   -{{$key}} : {{$value | quote}}
 {{- end }}
-`
+```
 
 Template file
 - Extension - `.tpl`
 - Cooments
 - `{{/* */}}`
 - 
-`{{-define "firstchat.name" -}}
+```{{-define "firstchat.name" -}}
 
 {{- end}}
-` 
+``` 
   - Defines name of the template
   - dirstname => namespace
   - name => name of the function 
