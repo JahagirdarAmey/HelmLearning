@@ -129,6 +129,17 @@ To create chart
 
 chart.yml
 - metadata about chart
+- Feilds
+  - apiVersion
+  - name
+  - version - version of the chart
+  - type - Either application or library   
+  - appVersion - version of the application whch is being packeged in the chart
+  - icon - JPEG, SVG
+  - keywords - json list to desc project
+  - home - home url
+  - sources - from where project can be downloaded
+  - maintainers - list of maintainers along with email 
 
 charts folder
 - if this chart depends on any other chart to get its job done. Those other charts will be pulled and stored in this folder
@@ -136,9 +147,12 @@ charts folder
 Templates
 - All templates
 - helpers.tpl , hpa.yaml , NOTES.txt , serviceaccount.yaml , deployment.yaml , ingress.yaml  service.yaml files are created
+- If you think, your project does not require service account, You can get rid of it. 
+- helpers.tp -> helper file. Any template method you want to use across , Use this file. define / include etc
 
 Values.yml
 - values for template
+- It will have default values. Can be overridden 
 
 
 To install created chart
@@ -148,6 +162,119 @@ To install created chart
 - chart folder -> templet -> notes.txt 
 - As this is nginx, by default clusterIp as serviceType is used. As this is clusterIp, Only accesible from cluster. You can do port forwarding
 - When you do port forwarding, Welcome to nginx is disbaled on browser (Open URL first)
+
+To package helm chart
+- `helm package firstchart\`
+- Packages and saves it to .tgz directory 
+- helm install can work with .tgz files
+- `helm package firstchart\ -u` This will pull the latest dependencies 
+- `helm package firstchart\ -d` This is to specify the destination. 
+
+helm lint
+- `helm lint firstchart`
+- scans the folder and validates it. Can take multiple chrts as input
+
+### Template Deep Drive
+- helm uses Go programming language text templating engine 
+- Actions
+  - starts with & ends wih `{{ }}`
+  - We can use variables, loops, conditions , invoking methods    
+  - Most of the action starts with -. This is to remove any trailing or leading whitespaces
+  - . => All the information template can use. .Values =? contains all the information from values.yml
+    - .Values, .Chart, .Release, .Template
+
+- Pipelines
+- Allows us to pass out of LHS to RHS
+- `{{ .Values.myval | default "mytest"}}` => If .Values.myval does not contain any value, default will be used
+- `{{ .Values.myval | upper}}` => to upper case
+- `{{ .Values.myval | quotes}}` => to add quotes
+- `{{ .Values.myval | default "mytest" | upper | quotes}}` => Chain of commands
+
+
+Functions
+- default, upper, quotes, lower 
+- nindent 4 => Adds new line and 4 spaces
+- `{{- toYaml . }}` => We get values as object. Convert object to yaml
+- Seach helm template function list 
+
+Conditional 
+- 
+`{{- if .Value.mybooleanval }}
+ put whatever 
+{{- end}}`
+-
+`{{- if .Value.mybooleanval }}
+ put whatever 
+{{- else}}
+put whatever 
+{{- end}}`
+-
+`{{- if not .Value.mybooleanval }}`
+`{{- if and .Value.mybooleanval .Value.mybooleanval2 }}`
+`{{- if or .Value.mybooleanval .Value.mybooleanval2 }}`
+
+
+with
+- Values.yml
+`
+myvals
+  - India
+  - Germany
+  - UK
+  - US
+`
+
+`
+{{-with .Values.myvals}}
+{{ - toYaml . | nindent 2}}
+{{- end}}
+`
+- This will print all myvals with 2 space indentation 
+- . here points to object returnd by -with
+- If you want to point to root object, use $.
+
+Variables
+- `{{ $myFLAG := true }}`
+- `{{ $myVALUE := "Val" }}`
+
+Loop
+`
+{{-range .Values.myvals}}
+  {{. | upper}}
+{{- end }}
+`
+
+
+Looping dictnory types
+`
+{{-range $key,$value := .Values.myvals}}
+  -{{$key}} : {{$value | quote}}
+{{- end }}
+`
+
+Template file
+- Extension - `.tpl`
+- Cooments
+- `{{/* */}}`
+- 
+`{{-define "firstchat.name" -}}
+
+{{- end}}
+` 
+  - Defines name of the template
+  - dirstname => namespace
+  - name => name of the function 
+- To use thi
+`
+{{ include "firstchart.name"}}
+`
+
+
+
+
+
+
+
 
 
 
